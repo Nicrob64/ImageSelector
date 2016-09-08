@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.isseiaoki.simplecropview.CropImageView;
@@ -38,6 +39,8 @@ public class ImageCropActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView doneText;
     private CropImageView cropImageView;
+	private ImageView mRotateRightImageView;
+	private ImageView mRotateLeftImageView;
 
 
     private Uri sourceUri;
@@ -70,8 +73,24 @@ public class ImageCropActivity extends AppCompatActivity {
 
         doneText = (TextView) findViewById(R.id.done_text);
         cropImageView = (CropImageView) findViewById(R.id.cropImageView);
-        cropImageView.setHandleSizeInDp(10);
+        //cropImageView.setHandleSizeInDp(10);
 
+		mRotateLeftImageView = (ImageView) findViewById(R.id.rotate_image_left);
+		mRotateRightImageView = (ImageView) findViewById(R.id.rotate_image_right);
+
+		mRotateLeftImageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				cropImageView.rotateImage(CropImageView.RotateDegrees.ROTATE_M90D);
+			}
+		});
+
+		mRotateRightImageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				cropImageView.rotateImage(CropImageView.RotateDegrees.ROTATE_90D);
+			}
+		});
 
         int exifRotation = CropUtil.getExifRotation(CropUtil.getFromMediaUri(this, getContentResolver(), sourceUri));
 
