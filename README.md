@@ -8,6 +8,13 @@ Image selector library for Android. Support single choice、multi-choice、cropp
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot4.jpg)
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot5.jpg)
 
+## Changes to the original version
+
+-Fixed issues with bad touch recognition on cropping activity
+-Added rotation support to the cropping activity
+-Changed the cropping crop mode to circle
+
+
 ## Quick start
 
 1) Add Library module as a dependency in your build.gradle file.
@@ -19,8 +26,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.commit451:PhotoView:1.2.4'
-    compile 'com.isseiaoki:simplecropview:1.0.13'
-    compile 'com.yongchun:com.yongchun.imageselector:1.1.0'
+    compile 'com.isseiaoki:simplecropview:1.14.1'
+    compile 'com.github.Nicrob64:ImageSelector:1.0.1'
 }
 ```
 
