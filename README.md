@@ -1,19 +1,23 @@
+[![](https://jitpack.io/v/Nicrob64/ImageSelector.svg)](https://jitpack.io/#Nicrob64/ImageSelector)
+
 # ImageSelector
 Image selector library for Android. Support single choice、multi-choice、cropping image and preview image.
 
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot1.jpg)
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot2.jpg)
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot3.jpg)
-
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot4.jpg)
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot5.jpg)
 
 ## Changes to the original version
 
--Fixed issues with bad touch recognition on cropping activity
--Added rotation support to the cropping activity
--Changed the cropping crop mode to circle
+- Fixed issues with bad touch recognition on cropping activity
+- Added rotation support to the cropping activity
+- Changed the cropping crop mode to circle
 
+## TODO
+
+- Update library to request READ and WRITE permissions on android Marshmallow+
 
 ## Quick start
 
@@ -23,11 +27,7 @@ or
 
 ```xml
 dependencies {
-    compile 'com.android.support:recyclerview-v7:22.2.1'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.commit451:PhotoView:1.2.4'
-    compile 'com.isseiaoki:simplecropview:1.14.1'
-    compile 'com.github.Nicrob64:ImageSelector:1.0.1'
+    compile 'com.github.Nicrob64:ImageSelector:1.0.9'
 }
 ```
 
@@ -37,13 +37,8 @@ dependencies {
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
-```java
-<activity android:name="com.yongchun.library.view.ImageSelectorActivity"/>
-<activity android:name="com.yongchun.library.view.ImagePreviewActivity"/>
-<activity android:name="com.yongchun.library.view.ImageCropActivity"/>
-```
 
-3) Call ImageSelectorActivity in your code
+3) Call ImageSelectorActivity in your code (Manifest merger might handle that? not too sure)
 
 ```java
 ImageSelectorActivity.start(MainActivity.this, maxSelectNum, mode, isShow,isPreview,isCrop);
@@ -84,7 +79,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ###License
 >The MIT License (MIT)
 
->Copyright (c) 2015 Dee
+>Modifications Copyright (c) 2016 Nic Robertson
+>Original library Copyright (c) 2015 Dee
 
 >Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
