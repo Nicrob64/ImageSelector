@@ -71,6 +71,9 @@ public class LocalMediaLoader {
 
             @Override
             public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+				if(data.isClosed()){
+					return;
+				}
                 ArrayList<LocalMediaFolder> imageFolders = new ArrayList<LocalMediaFolder>();
                 LocalMediaFolder allImageFolder = new LocalMediaFolder();
                 List<LocalMedia> allImages = new ArrayList<LocalMedia>();
