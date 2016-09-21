@@ -116,9 +116,17 @@ public class LocalMediaLoader {
                     for (int i = 0; i < files.length; i++) {
                         File f = files[i];
                         LocalMedia localMedia = new LocalMedia(f.getAbsolutePath());
+						localMedia.setLastUpdateAt(f.lastModified());
                         allImages.add(localMedia);
                         images.add(localMedia);
                     }
+					Collections.sort(images, new Comparator<LocalMedia>() {
+						@Override
+						public int compare(LocalMedia lhs, LocalMedia rhs) {
+							//descending order
+							return ((Long)rhs.getLastUpdateAt()).compareTo(lhs.getLastUpdateAt());
+						}
+					});
                     if (images.size() > 0) {
                         localMediaFolder.setImages(images);
                         localMediaFolder.setImageNum(localMediaFolder.getImages().size());
@@ -126,6 +134,13 @@ public class LocalMediaLoader {
                     }
                 }
 
+				Collections.sort(allImages, new Comparator<LocalMedia>() {
+					@Override
+					public int compare(LocalMedia lhs, LocalMedia rhs) {
+						//descending order
+						return ((Long)rhs.getLastUpdateAt()).compareTo(lhs.getLastUpdateAt());
+					}
+				});
                 allImageFolder.setImages(allImages);
                 allImageFolder.setImageNum(allImageFolder.getImages().size());
 				if(!allImages.isEmpty()) {
