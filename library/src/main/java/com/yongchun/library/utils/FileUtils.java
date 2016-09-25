@@ -33,7 +33,7 @@ public class FileUtils {
 
         }
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
         String fileName = APP_NAME + "_" + timeStamp + "";
         File tmpFile = new File(folderDir, fileName + POSTFIX);
         return tmpFile;

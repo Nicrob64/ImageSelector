@@ -57,10 +57,12 @@ public class LocalMediaLoader {
                 CursorLoader cursorLoader = null;
                 if (id == TYPE_IMAGE) {
                     cursorLoader = new CursorLoader(
-                            activity, MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            IMAGE_PROJECTION, MediaStore.Images.Media.MIME_TYPE + "=? or "
-                            + MediaStore.Images.Media.MIME_TYPE + "=?",
-                            new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
+                            activity,
+							MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            IMAGE_PROJECTION,
+							MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?",
+                            new String[]{"image/jpeg", "image/png"},
+							IMAGE_PROJECTION[2] + " DESC");
                 } else if (id == TYPE_VIDEO) {
                     cursorLoader = new CursorLoader(
                             activity, MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
@@ -105,6 +107,7 @@ public class LocalMediaLoader {
                     File[] files = parentFile.listFiles(new FilenameFilter() {
                         @Override
                         public boolean accept(File dir, String filename) {
+							filename = filename.toLowerCase(); //why did you not do that before
                             if (filename.endsWith(".jpg")
                                     || filename.endsWith(".png")
                                     || filename.endsWith(".jpeg"))
