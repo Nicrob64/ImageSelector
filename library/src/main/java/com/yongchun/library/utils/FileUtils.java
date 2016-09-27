@@ -7,6 +7,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Created by dee on 15/11/20.
@@ -14,8 +15,8 @@ import java.util.Locale;
 public class FileUtils {
     public static final String POSTFIX = ".JPEG";
     public static final String APP_NAME = "ImageSelector";
-    public static final String CAMERA_PATH = "/" + APP_NAME + "/CameraImage/";
-    public static final String CROP_PATH = "/" + APP_NAME + "/CropImage/";
+    public static final String CAMERA_PATH = "/" + APP_NAME + "/";
+    public static final String CROP_PATH = "/" + APP_NAME + "/";
 
     public static File createCameraFile(Context context) {
         return createMediaFile(context,CAMERA_PATH);
@@ -23,6 +24,21 @@ public class FileUtils {
     public static File createCropFile(Context context) {
         return createMediaFile(context,CROP_PATH);
     }
+
+	public static File createCameraFile(Context context, String appName){
+		String state = Environment.getExternalStorageState();
+		File rootDir = state.equals(Environment.MEDIA_MOUNTED)?Environment.getExternalStorageDirectory():context.getCacheDir();
+		File folderDir = new File(rootDir.getAbsolutePath() + CAMERA_PATH);
+		if (!folderDir.exists() && folderDir.mkdirs()){}
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+		String fileName = appName + "_" + timeStamp + "";
+		File tmpFile = new File(folderDir, fileName + POSTFIX);
+		return tmpFile;
+	}
+
+	public static File createTempCropFile(Context context){
+		return new File(context.getCacheDir(),  UUID.randomUUID().toString() + POSTFIX);
+	}
 
     private static File createMediaFile(Context context,String parentPath){
         String state = Environment.getExternalStorageState();
