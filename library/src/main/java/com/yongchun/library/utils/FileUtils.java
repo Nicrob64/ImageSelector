@@ -14,33 +14,23 @@ import java.util.UUID;
  */
 public class FileUtils {
     public static final String POSTFIX = ".JPEG";
-    public static final String APP_NAME = "ImageSelector";
-    public static final String CAMERA_PATH = "/" + APP_NAME + "/";
-    public static final String CROP_PATH = "/" + APP_NAME + "/";
+	public static String APP_NAME = "";
+	public static String CAMERA_PATH = "/";
+
+	public static void setAppName(String appName){
+		APP_NAME = appName;
+		CAMERA_PATH = "/" + APP_NAME + "/";
+	}
 
     public static File createCameraFile(Context context) {
         return createMediaFile(context,CAMERA_PATH);
     }
-    public static File createCropFile(Context context) {
-        return createMediaFile(context,CROP_PATH);
-    }
-
-	public static File createCameraFile(Context context, String appName){
-		String state = Environment.getExternalStorageState();
-		File rootDir = state.equals(Environment.MEDIA_MOUNTED)?Environment.getExternalStorageDirectory():context.getCacheDir();
-		File folderDir = new File(rootDir.getAbsolutePath() + CAMERA_PATH);
-		if (!folderDir.exists() && folderDir.mkdirs()){}
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
-		String fileName = appName + "_" + timeStamp + "";
-		File tmpFile = new File(folderDir, fileName + POSTFIX);
-		return tmpFile;
-	}
 
 	public static File createTempCropFile(Context context){
 		return new File(context.getCacheDir(),  UUID.randomUUID().toString() + POSTFIX);
 	}
 
-    private static File createMediaFile(Context context,String parentPath){
+    private static File createMediaFile(Context context, String parentPath){
         String state = Environment.getExternalStorageState();
         File rootDir = state.equals(Environment.MEDIA_MOUNTED)?Environment.getExternalStorageDirectory():context.getCacheDir();
 
@@ -48,7 +38,6 @@ public class FileUtils {
         if (!folderDir.exists() && folderDir.mkdirs()){
 
         }
-
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
         String fileName = APP_NAME + "_" + timeStamp + "";
         File tmpFile = new File(folderDir, fileName + POSTFIX);

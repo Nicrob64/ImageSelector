@@ -76,6 +76,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SHOW_CAMERA, isShow);
         intent.putExtra(EXTRA_ENABLE_PREVIEW, enablePreview);
         intent.putExtra(EXTRA_ENABLE_CROP, enableCrop);
+		FileUtils.setAppName(activity.getString(activity.getApplicationInfo().labelRes));
         activity.startActivityForResult(intent, REQUEST_IMAGE);
     }
 

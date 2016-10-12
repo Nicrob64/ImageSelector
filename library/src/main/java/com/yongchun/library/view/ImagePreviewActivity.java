@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.yongchun.library.R;
 import com.yongchun.library.model.LocalMedia;
+import com.yongchun.library.utils.FileUtils;
 import com.yongchun.library.widget.PreviewViewPager;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class ImagePreviewActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_PREVIEW_SELECT_LIST, (ArrayList) selectImages);
         intent.putExtra(EXTRA_POSITION, position);
         intent.putExtra(EXTRA_MAX_SELECT_NUM, maxSelectNum);
+		FileUtils.setAppName(context.getString(context.getApplicationInfo().labelRes));
         context.startActivityForResult(intent, REQUEST_PREVIEW);
     }
 

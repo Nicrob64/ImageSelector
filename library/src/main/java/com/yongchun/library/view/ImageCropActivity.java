@@ -50,19 +50,12 @@ public class ImageCropActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
 
     public static void startCrop(Activity activity, String path) {
+		FileUtils.setAppName(activity.getString(activity.getApplicationInfo().labelRes));
         Intent intent = new Intent(activity, ImageCropActivity.class);
         intent.putExtra(EXTRA_PATH, path);
+		intent.putExtra(CACHE_ONLY, true); //default this to truth
         activity.startActivityForResult(intent, REQUEST_CROP);
     }
-
-	public static void startCrop(Activity activity, String path, boolean cacheOnly){
-		Intent intent = new Intent(activity, ImageCropActivity.class);
-		intent.putExtra(EXTRA_PATH, path);
-		if(cacheOnly) {
-			intent.putExtra(CACHE_ONLY, true);
-		}
-		activity.startActivityForResult(intent, REQUEST_CROP);
-	}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,13 +128,8 @@ public class ImageCropActivity extends AppCompatActivity {
         doneText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressDialog.show(
-                        ImageCropActivity.this, null, getString(R.string.save_ing), true, false);
-				if(getIntent().hasExtra(CACHE_ONLY)){
-					saveUri = Uri.fromFile(FileUtils.createTempCropFile(ImageCropActivity.this));
-				}else{
-					saveUri = Uri.fromFile(FileUtils.createCropFile(ImageCropActivity.this));
-				}
+                ProgressDialog.show(ImageCropActivity.this, null, getString(R.string.save_ing), true, false);
+				saveUri = Uri.fromFile(FileUtils.createTempCropFile(ImageCropActivity.this));
                 saveOutput(cropImageView.getCroppedBitmap());
             }
         });
