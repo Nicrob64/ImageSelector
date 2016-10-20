@@ -33,6 +33,7 @@ import java.util.List;
 public class ImageSelectorActivity extends AppCompatActivity {
     public final static int REQUEST_IMAGE = 66;
     public final static int REQUEST_CAMERA = 67;
+	public final static int REQUEST_VIDEO = 68;
 
     public final static String BUNDLE_CAMERA_PATH = "CameraPath";
 
@@ -43,6 +44,10 @@ public class ImageSelectorActivity extends AppCompatActivity {
     public final static String EXTRA_ENABLE_PREVIEW = "EnablePreview";
     public final static String EXTRA_ENABLE_CROP = "EnableCrop";
     public final static String EXTRA_MAX_SELECT_NUM = "MaxSelectNum";
+	public static final String EXTRA_MEDIA_TYPE = "MediaType";
+
+	public static final int TYPE_VIDEO = LocalMediaLoader.TYPE_VIDEO;
+	public static final int TYPE_IMAGE = LocalMediaLoader.TYPE_IMAGE;
 
     public final static int MODE_MULTIPLE = 1;
     public final static int MODE_SINGLE = 2;
@@ -52,6 +57,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
     private boolean showCamera = true;
     private boolean enablePreview = true;
     private boolean enableCrop = false;
+	private int mediaType = TYPE_IMAGE;
 
     private int spanCount = 3;
 
@@ -90,6 +96,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         showCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, true);
         enablePreview = getIntent().getBooleanExtra(EXTRA_ENABLE_PREVIEW, true);
         enableCrop = getIntent().getBooleanExtra(EXTRA_ENABLE_CROP, false);
+		mediaType = getIntent().getIntExtra(EXTRA_MEDIA_TYPE, TYPE_IMAGE);
 
         if (selectMode == MODE_MULTIPLE) {
             enableCrop = false;
@@ -101,8 +108,8 @@ public class ImageSelectorActivity extends AppCompatActivity {
         }
         initView();
         registerListener();
-        new LocalMediaLoader(this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
 
+        new LocalMediaLoader(this, mediaType).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
             @Override
             public void loadComplete(List<LocalMediaFolder> folders) {
                 folderWindow.bindFolder(folders);
@@ -115,7 +122,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         folderWindow = new FolderWindow(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.picture);
+        toolbar.setTitle(mediaType == TYPE_IMAGE ? R.string.picture : R.string.video);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_back);
 
@@ -127,6 +134,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 
         folderLayout = (LinearLayout) findViewById(R.id.folder_layout);
         folderName = (TextView) findViewById(R.id.folder_name);
+		folderName.setText(mediaType == TYPE_IMAGE ? R.string.all_image : R.string.all_videos);
 
         recyclerView = (RecyclerView) findViewById(R.id.folder_list);
         recyclerView.setHasFixedSize(true);

@@ -148,6 +148,32 @@
             android:text="@string/disable" />
     </RadioGroup>
 
+
+    <RadioGroup
+        android:id="@+id/media_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/type_image"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/margin_text"
+        android:paddingTop="@dimen/margin_text">
+
+        <RadioButton
+            android:id="@+id/type_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Image" />
+
+        <RadioButton
+            android:id="@+id/type_video"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_text"
+            android:layout_weight="1.5"
+            android:text="Video" />
+    </RadioGroup>
+
     <Button
         android:id="@+id/select_picture"
         android:layout_width="match_parent"

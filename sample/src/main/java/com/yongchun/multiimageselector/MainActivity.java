@@ -13,6 +13,15 @@ import com.yongchun.library.view.ImageSelectorActivity;
 
 import java.util.ArrayList;
 
+import static com.yongchun.library.view.ImageSelectorActivity.EXTRA_ENABLE_CROP;
+import static com.yongchun.library.view.ImageSelectorActivity.EXTRA_ENABLE_PREVIEW;
+import static com.yongchun.library.view.ImageSelectorActivity.EXTRA_MAX_SELECT_NUM;
+import static com.yongchun.library.view.ImageSelectorActivity.EXTRA_MEDIA_TYPE;
+import static com.yongchun.library.view.ImageSelectorActivity.EXTRA_SELECT_MODE;
+import static com.yongchun.library.view.ImageSelectorActivity.EXTRA_SHOW_CAMERA;
+import static com.yongchun.library.view.ImageSelectorActivity.REQUEST_IMAGE;
+import static com.yongchun.library.view.ImageSelectorActivity.TYPE_VIDEO;
+
 public class MainActivity extends AppCompatActivity {
     private ImageButton minus;
     private ImageButton plus;
@@ -22,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup showCamera;
     private RadioGroup enablePreview;
     private RadioGroup enableCrop;
+	private RadioGroup mediaType;
 
     private Button selectPicture;
 
@@ -44,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         showCamera = (RadioGroup) findViewById(R.id.show_camera);
         enablePreview = (RadioGroup) findViewById(R.id.enable_preview);
         enableCrop = (RadioGroup) findViewById(R.id.enable_crop);
+		mediaType = (RadioGroup) findViewById(R.id.media_type);
 
         selectPicture = (Button) findViewById(R.id.select_picture);
     }
@@ -87,8 +98,17 @@ public class MainActivity extends AppCompatActivity {
                 boolean isShow = showCamera.getCheckedRadioButtonId()==R.id.camera_yes?true:false;
                 boolean isPreview = enablePreview.getCheckedRadioButtonId()==R.id.preview_enable?true:false;
                 boolean isCrop = enableCrop.getCheckedRadioButtonId()==R.id.crop_enable?true:false;
+				boolean isImage = mediaType.getCheckedRadioButtonId()==R.id.type_image?true:false;
 
-                ImageSelectorActivity.start(MainActivity.this, maxSelectNum, mode, isShow,isPreview,isCrop);
+				Intent intent = new Intent(MainActivity.this, ImageSelectorActivity.class);
+				intent.putExtra(EXTRA_MAX_SELECT_NUM, maxSelectNum);
+				intent.putExtra(EXTRA_SELECT_MODE, mode);
+				intent.putExtra(EXTRA_SHOW_CAMERA, isShow);
+				intent.putExtra(EXTRA_ENABLE_PREVIEW, isPreview);
+				intent.putExtra(EXTRA_ENABLE_CROP, isCrop);
+				intent.putExtra(EXTRA_MEDIA_TYPE, isImage ? ImageSelectorActivity.TYPE_IMAGE : TYPE_VIDEO);
+				startActivityForResult(intent, REQUEST_IMAGE);
+                //ImageSelectorActivity.start(MainActivity.this, maxSelectNum, mode, isShow,isPreview,isCrop);
             }
         });
     }

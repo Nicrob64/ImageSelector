@@ -7,12 +7,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 
 import com.yongchun.library.model.LocalMedia;
 import com.yongchun.library.model.LocalMediaFolder;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,9 +66,13 @@ public class LocalMediaLoader {
                             new String[]{"image/jpeg", "image/png"},
 							IMAGE_PROJECTION[2] + " DESC");
                 } else if (id == TYPE_VIDEO) {
-                    cursorLoader = new CursorLoader(
-                            activity, MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                            VIDEO_PROJECTION, null, null, VIDEO_PROJECTION[2] + " DESC");
+					cursorLoader = new CursorLoader(
+                            activity,
+							MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                            VIDEO_PROJECTION,
+							null,
+							null,
+							VIDEO_PROJECTION[2] + " DESC");
                 }
                 return cursorLoader;
             }
@@ -108,10 +114,18 @@ public class LocalMediaLoader {
                         @Override
                         public boolean accept(File dir, String filename) {
 							filename = filename.toLowerCase(); //why did you not do that before
-                            if (filename.endsWith(".jpg")
-                                    || filename.endsWith(".png")
-                                    || filename.endsWith(".jpeg"))
-                                return true;
+                            if(TYPE_IMAGE == type) {
+								String mimeType = URLConnection.guessContentTypeFromName(filename);
+								if(!TextUtils.isEmpty(mimeType) && mimeType.startsWith("image")) {
+									return true;
+								}
+							}
+							if(TYPE_VIDEO == type){
+								String mimeType = URLConnection.guessContentTypeFromName(filename);
+								if(!TextUtils.isEmpty(mimeType) && mimeType.startsWith("video")) {
+									return true;
+								}
+							}
                             return false;
                         }
                     });
@@ -149,7 +163,7 @@ public class LocalMediaLoader {
 				if(!allImages.isEmpty()) {
 					allImageFolder.setFirstImagePath(allImages.get(0).getPath());
 				}
-                allImageFolder.setName(activity.getString(com.yongchun.library.R.string.all_image));
+                allImageFolder.setName(activity.getString(type == TYPE_IMAGE ? com.yongchun.library.R.string.all_image : com.yongchun.library.R.string.all_videos));
                 imageFolders.add(allImageFolder);
                 sortFolder(imageFolders);
                 imageLoadListener.loadComplete(imageFolders);
