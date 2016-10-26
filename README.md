@@ -8,6 +8,8 @@ Image selector library for Android. Support single choice、multi-choice、cropp
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot3.jpg)
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot4.jpg)
 ![](https://raw.githubusercontent.com/ioneday/ImageSelector/master/screenshot/Screenshot5.jpg)
+![](https://raw.githubusercontent.com/Nicrob64/ImageSelector/master/screenshot/Screenshot-6.png)
+
 
 ## Changes to the original version
 
@@ -15,10 +17,14 @@ Image selector library for Android. Support single choice、multi-choice、cropp
 - Added rotation support to the cropping activity
 - Changed the cropping crop mode to circle
 - Fixed bugs with some images not loading in
+- Added basic video support. Don't know how this will work with cropping or preview activities, so make sure that is handled correctly.
 
 ## TODO
 
 - Update library to request READ and WRITE permissions on android Marshmallow+
+- Add a Video + Image picker
+- Add video playback in thumbnails/preview (not sure if I should do that or not)
+- Change photo icon to a video icon for the camera preview while in video mode
 
 ## Quick start
 
@@ -28,7 +34,7 @@ or
 
 ```xml
 dependencies {
-    compile 'com.github.Nicrob64:ImageSelector:1.0.11'
+    compile 'com.github.Nicrob64:ImageSelector:1.0.12'
 }
 ```
 
@@ -44,7 +50,7 @@ dependencies {
 ```java
 ImageSelectorActivity.start(MainActivity.this, maxSelectNum, mode, isShow,isPreview,isCrop);
 ```
-same this
+Which is equivalent to:
 
 ```java
 public static void start(Activity activity, int maxSelectNum, int mode, boolean isShow, boolean enablePreview, boolean enableCrop) {
@@ -57,6 +63,14 @@ public static void start(Activity activity, int maxSelectNum, int mode, boolean 
     activity.startActivityForResult(intent, REQUEST_IMAGE);
 }
 ```
+
+Other options:
+```java
+//choose videos instead of images
+intent.putExtra(ImageSelectorActivity.EXTRA_MEDIA_TYPE, ImageSelectorActivity.TYPE_VIDEO); 
+```
+
+
 4) Receive result in your onActivityResult Method
 
 ``` java
