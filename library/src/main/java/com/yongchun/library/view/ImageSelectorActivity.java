@@ -141,7 +141,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, ScreenUtils.dip2px(this, 2), false));
         recyclerView.setLayoutManager(new GridLayoutManager(this, spanCount));
 
-        imageAdapter = new ImageListAdapter(this, maxSelectNum, selectMode, showCamera,enablePreview);
+        imageAdapter = new ImageListAdapter(this, maxSelectNum, selectMode, showCamera,enablePreview, mediaType);
         recyclerView.setAdapter(imageAdapter);
 
     }
@@ -256,13 +256,31 @@ public class ImageSelectorActivity extends AppCompatActivity {
      * start to camera、preview、crop
      */
     public void startCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            File cameraFile = FileUtils.createCameraFile(this);
-            cameraPath = cameraFile.getAbsolutePath();
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-            startActivityForResult(cameraIntent, REQUEST_CAMERA);
-        }
+		switch (mediaType){
+			case LocalMediaLoader.TYPE_IMAGE:
+				FileUtils.POSTFIX = ".JPEG";
+				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+					File cameraFile = FileUtils.createCameraFile(this);
+					cameraPath = cameraFile.getAbsolutePath();
+					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+					startActivityForResult(cameraIntent, REQUEST_CAMERA);
+				}
+				break;
+			case LocalMediaLoader.TYPE_VIDEO:
+				FileUtils.POSTFIX = ".mp4";
+				Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+				if (videoIntent.resolveActivity(getPackageManager()) != null) {
+					File cameraFile = FileUtils.createCameraFile(this);
+					cameraPath = cameraFile.getAbsolutePath();
+					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+					startActivityForResult(videoIntent, REQUEST_CAMERA);
+				}
+				break;
+		}
+
+
+
     }
 
     public void startPreview(List<LocalMedia> previewImages, int position) {

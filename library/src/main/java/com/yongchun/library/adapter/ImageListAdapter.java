@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yongchun.library.R;
 import com.yongchun.library.model.LocalMedia;
+import com.yongchun.library.utils.LocalMediaLoader;
 import com.yongchun.library.view.ImageSelectorActivity;
 
 import java.io.File;
@@ -31,17 +33,20 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int maxSelectNum;
     private int selectMode = ImageSelectorActivity.MODE_MULTIPLE;
 
+	private int mediaType = LocalMediaLoader.TYPE_IMAGE;
+
     private List<LocalMedia> images = new ArrayList<LocalMedia>();
     private List<LocalMedia> selectImages = new ArrayList<LocalMedia>();
 
     private OnImageSelectChangedListener imageSelectChangedListener;
 
-    public ImageListAdapter(Context context, int maxSelectNum, int mode, boolean showCamera, boolean enablePreview) {
+    public ImageListAdapter(Context context, int maxSelectNum, int mode, boolean showCamera, boolean enablePreview, int mediaType) {
         this.context = context;
         this.selectMode = mode;
         this.maxSelectNum = maxSelectNum;
         this.showCamera = showCamera;
         this.enablePreview = enablePreview;
+		this.mediaType = mediaType;
     }
 
     public void bindImages(List<LocalMedia> images) {
@@ -80,7 +85,12 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_CAMERA) {
+
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
+			if(mediaType == LocalMediaLoader.TYPE_VIDEO) {
+				TextView tv = (TextView) headerHolder.headerView.findViewById(R.id.take_photo_textview);
+				tv.setText(R.string.take_video);
+			}
             headerHolder.headerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

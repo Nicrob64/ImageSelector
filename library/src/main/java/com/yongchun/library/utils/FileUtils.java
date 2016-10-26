@@ -13,7 +13,7 @@ import java.util.UUID;
  * Created by dee on 15/11/20.
  */
 public class FileUtils {
-    public static final String POSTFIX = ".JPEG";
+    public static String POSTFIX = ".JPEG";
 	public static String APP_NAME = "";
 	public static String CAMERA_PATH = "/";
 
