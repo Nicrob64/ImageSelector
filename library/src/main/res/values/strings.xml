@@ -14,4 +14,5 @@
     <string name="save_ing">Saving picture…</string>
     <string name="video">Videos</string>
     <string name="all_videos">All videos</string>
+    <string name="take_video">Take video</string>
 </resources>
