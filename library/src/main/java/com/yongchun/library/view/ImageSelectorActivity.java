@@ -263,7 +263,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				if (cameraIntent.resolveActivity(getPackageManager()) != null) {
 					File cameraFile = FileUtils.createCameraFile(this);
-					Uri photoUri = FileProvider.getUriForFile(this, "ImageSelector.provider", cameraFile);
+					Uri photoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
 					cameraPath = cameraFile.getAbsolutePath();
 					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 					startActivityForResult(cameraIntent, REQUEST_CAMERA);
@@ -274,7 +274,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 				Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 				if (videoIntent.resolveActivity(getPackageManager()) != null) {
 					File cameraFile = FileUtils.createCameraFile(this);
-					Uri videoUri = FileProvider.getUriForFile(this, "ImageSelector.provider", cameraFile);
+					Uri videoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
 					cameraPath = cameraFile.getAbsolutePath();
 					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
 					startActivityForResult(videoIntent, REQUEST_CAMERA);
