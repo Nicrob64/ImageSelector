@@ -18,6 +18,8 @@ Image selector library for Android. Support single choice、multi-choice、cropp
 - Changed the cropping crop mode to circle
 - Fixed bugs with some images not loading in
 - Added basic video support. Don't know how this will work with cropping or preview activities, so make sure that is handled correctly.
+- Fix for crash when 0 images on the device.
+- Fix for crash on android N due to file uri being exposed
 
 ## TODO
 
@@ -34,7 +36,7 @@ or
 
 ```xml
 dependencies {
-    compile 'com.github.Nicrob64:ImageSelector:1.0.12'
+    compile 'com.github.Nicrob64:ImageSelector:1.0.13'
 }
 ```
 
