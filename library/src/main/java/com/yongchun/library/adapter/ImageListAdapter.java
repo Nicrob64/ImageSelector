@@ -89,6 +89,8 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 			if(mediaType == LocalMediaLoader.TYPE_VIDEO) {
 				TextView tv = (TextView) headerHolder.headerView.findViewById(R.id.take_photo_textview);
+				ImageView img = (ImageView) headerHolder.headerView.findViewById(R.id.camera);
+				img.setImageResource(R.drawable.ic_video);
 				tv.setText(R.string.take_video);
 			}
             headerHolder.headerView.setOnClickListener(new View.OnClickListener() {
