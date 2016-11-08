@@ -4,7 +4,7 @@
     <string name="picture">图片</string>
     <string name="take_picture">拍摄照片</string>
     <string name="preview">预览</string>
-    <string name="preview_num">预览(%1$s)</string>
+    <string name="preview_num">预览(%1$d)</string>
     <string name="choose">选择</string>
     <string name="done">完成</string>
     <string name="use">使用</string>

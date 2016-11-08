@@ -4,7 +4,7 @@
     <string name="all_image">All Images</string>
     <string name="take_picture">Take Photo</string>
     <string name="preview">Preview</string>
-    <string name="preview_num">Preview(%1$s)</string>
+    <string name="preview_num">Preview(%1$d)</string>
     <string name="choose">Select</string>
     <string name="done">Done</string>
     <string name="use">OK</string>
