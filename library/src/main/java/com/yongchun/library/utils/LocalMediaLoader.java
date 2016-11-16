@@ -1,6 +1,7 @@
 package com.yongchun.library.utils;
 
 import android.database.Cursor;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -13,11 +14,13 @@ import com.yongchun.library.model.LocalMedia;
 import com.yongchun.library.model.LocalMediaFolder;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EmptyStackException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -114,14 +117,26 @@ public class LocalMediaLoader {
                         @Override
                         public boolean accept(File dir, String filename) {
 							filename = filename.toLowerCase(); //why did you not do that before
+							//detect mimeType
+							String mimeType = null;
+							try {
+								mimeType = URLConnection.guessContentTypeFromName(filename);
+							}catch (StringIndexOutOfBoundsException exception){
+								exception.printStackTrace();
+							}
+							if(TextUtils.isEmpty(mimeType)){
+								try {
+									mimeType = URLConnection.guessContentTypeFromStream(new FileInputStream(new File(dir,filename)));
+								}catch (Exception exception){
+									exception.printStackTrace();
+								}
+							}
                             if(TYPE_IMAGE == type) {
-								String mimeType = URLConnection.guessContentTypeFromName(filename);
 								if(!TextUtils.isEmpty(mimeType) && mimeType.startsWith("image")) {
 									return true;
 								}
 							}
 							if(TYPE_VIDEO == type){
-								String mimeType = URLConnection.guessContentTypeFromName(filename);
 								if(!TextUtils.isEmpty(mimeType) && mimeType.startsWith("video")) {
 									return true;
 								}
@@ -134,6 +149,18 @@ public class LocalMediaLoader {
                         File f = files[i];
                         LocalMedia localMedia = new LocalMedia(f.getAbsolutePath());
 						localMedia.setLastUpdateAt(f.lastModified());
+						//get the video duration;
+						if(type == TYPE_VIDEO) {
+							try {
+								MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+								retriever.setDataSource(f.getAbsolutePath());
+								String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+								long timeInMsec = Long.parseLong(time);
+								localMedia.setDuration(timeInMsec);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
                         allImages.add(localMedia);
                         images.add(localMedia);
                     }
