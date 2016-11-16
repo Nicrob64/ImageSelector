@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yongchun.library.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                  xmlns:tools="http://schemas.android.com/tools"
+                                                  android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/image_placeholder"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/margin_text"
+        android:background="@color/black_semi_trans"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_video"
+            android:tint="@color/white"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/video_duration_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            tools:text="00:07"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/margin_text"
+        android:src="@drawable/checkbox_selector"/>
+</com.yongchun.library.widget.SquareRelativeLayout>

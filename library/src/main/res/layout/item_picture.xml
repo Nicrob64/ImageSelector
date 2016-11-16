@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.yongchun.library.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+                                                  android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content"
+                                                  xmlns:tools="http://schemas.android.com/tools">
     <ImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:src="@drawable/image_placeholder"/>
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:tint="@color/white"
+        android:src="@mipmap/ic_placeholder"
+        android:layout_margin="@dimen/margin_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
+
 
     <ImageView
         android:id="@+id/check"
@@ -13,5 +25,5 @@
         android:layout_height="wrap_content"
         android:src="@drawable/checkbox_selector"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/margin_text" />
+        android:padding="@dimen/margin_text"/>
 </com.yongchun.library.widget.SquareRelativeLayout>

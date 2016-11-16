@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.yongchun.library.R;
 import com.yongchun.library.model.LocalMedia;
 import com.yongchun.library.utils.LocalMediaLoader;
+import com.yongchun.library.utils.StringUtils;
 import com.yongchun.library.view.ImageSelectorActivity;
 
 import java.io.File;
@@ -77,8 +78,16 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_camera, parent, false);
             return new HeaderViewHolder(view);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_picture, parent, false);
-            return new ViewHolder(view);
+            View view;
+			switch (mediaType){
+				case LocalMediaLoader.TYPE_IMAGE:
+				default:
+					view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_picture, parent, false);
+					return new ViewHolder(view);
+				case LocalMediaLoader.TYPE_VIDEO:
+					view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
+					return new VideoViewHolder(view);
+			}
         }
     }
 
@@ -139,6 +148,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
             });
+
+			if(holder instanceof VideoViewHolder){
+				((VideoViewHolder) holder).duration.setText(StringUtils.getStringForMsec(image.getDuration()));
+			}
         }
     }
 
@@ -218,6 +231,23 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
     }
+
+	static class VideoViewHolder extends ViewHolder {
+		ImageView picture;
+		ImageView check;
+		TextView duration;
+
+		View contentView;
+
+		public VideoViewHolder(View itemView) {
+			super(itemView);
+			contentView = itemView;
+			picture = (ImageView) itemView.findViewById(R.id.picture);
+			check = (ImageView) itemView.findViewById(R.id.check);
+			duration = (TextView) itemView.findViewById(R.id.video_duration_text_view);
+		}
+
+	}
 
     public interface OnImageSelectChangedListener {
         void onChange(List<LocalMedia> selectImages);
