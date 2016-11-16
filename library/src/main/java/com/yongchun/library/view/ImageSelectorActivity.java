@@ -83,7 +83,6 @@ public class ImageSelectorActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SHOW_CAMERA, isShow);
         intent.putExtra(EXTRA_ENABLE_PREVIEW, enablePreview);
         intent.putExtra(EXTRA_ENABLE_CROP, enableCrop);
-		FileUtils.setAppName(activity.getString(activity.getApplicationInfo().labelRes));
         activity.startActivityForResult(intent, REQUEST_IMAGE);
     }
 
@@ -259,10 +258,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
     public void startCamera() {
 		switch (mediaType){
 			case LocalMediaLoader.TYPE_IMAGE:
-				FileUtils.POSTFIX = ".JPEG";
 				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-					File cameraFile = FileUtils.createCameraFile(this);
+					File cameraFile = FileUtils.createMediaFile(this, true, ".jpg");
 					Uri photoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
 					cameraPath = cameraFile.getAbsolutePath();
 					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -270,10 +268,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
 				}
 				break;
 			case LocalMediaLoader.TYPE_VIDEO:
-				FileUtils.POSTFIX = ".mp4";
 				Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 				if (videoIntent.resolveActivity(getPackageManager()) != null) {
-					File cameraFile = FileUtils.createCameraFile(this);
+					File cameraFile = FileUtils.createMediaFile(this, false, ".mp4");
 					Uri videoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
 					cameraPath = cameraFile.getAbsolutePath();
 					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);

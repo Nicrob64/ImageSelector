@@ -61,7 +61,6 @@ public class ImagePreviewActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_PREVIEW_SELECT_LIST, (ArrayList) selectImages);
         intent.putExtra(EXTRA_POSITION, position);
         intent.putExtra(EXTRA_MAX_SELECT_NUM, maxSelectNum);
-		FileUtils.setAppName(context.getString(context.getApplicationInfo().labelRes));
         context.startActivityForResult(intent, REQUEST_PREVIEW);
     }
 

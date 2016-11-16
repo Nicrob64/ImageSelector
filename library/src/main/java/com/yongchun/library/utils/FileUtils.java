@@ -1,7 +1,10 @@
 package com.yongchun.library.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Environment;
+
+import com.yongchun.library.model.LocalMedia;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -14,33 +17,30 @@ import java.util.UUID;
  */
 public class FileUtils {
     public static String POSTFIX = ".JPEG";
-	public static String APP_NAME = "";
-	public static String CAMERA_PATH = "/";
 
-	public static void setAppName(String appName){
-		APP_NAME = appName;
-		CAMERA_PATH = "/" + APP_NAME + "/";
-	}
-
-    public static File createCameraFile(Context context) {
-        return createMediaFile(context,CAMERA_PATH);
-    }
 
 	public static File createTempCropFile(Context context){
 		return new File(context.getCacheDir(),  UUID.randomUUID().toString() + POSTFIX);
 	}
 
-    private static File createMediaFile(Context context, String parentPath){
-        String state = Environment.getExternalStorageState();
-        File rootDir = state.equals(Environment.MEDIA_MOUNTED)?Environment.getExternalStorageDirectory():context.getCacheDir();
+	public static File createMediaFile(Context context, boolean picture, String postfix){
 
-        File folderDir = new File(rootDir.getAbsolutePath() + parentPath);
-        if (!folderDir.exists() && folderDir.mkdirs()){
+		String env = Environment.DIRECTORY_PICTURES;
+		if(picture){
+			env = Environment.DIRECTORY_PICTURES;
+		}else{
+			env = Environment.DIRECTORY_MOVIES;
+		}
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+		File album = new File(Environment.getExternalStoragePublicDirectory(env), getApplicationName(context));
+		File tmpFile = new File(album, timeStamp + postfix);
+		return tmpFile;
+	}
 
-        }
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
-        String fileName = APP_NAME + "_" + timeStamp + "";
-        File tmpFile = new File(folderDir, fileName + POSTFIX);
-        return tmpFile;
-    }
+	public static String getApplicationName(Context context) {
+		ApplicationInfo applicationInfo = context.getApplicationInfo();
+		int stringId = applicationInfo.labelRes;
+		return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
+	}
+
 }

@@ -128,7 +128,7 @@ public class LocalMediaLoader {
 								try {
 									mimeType = URLConnection.guessContentTypeFromStream(new FileInputStream(new File(dir,filename)));
 								}catch (Exception exception){
-									exception.printStackTrace();
+								//	exception.printStackTrace();
 								}
 							}
                             if(TYPE_IMAGE == type) {

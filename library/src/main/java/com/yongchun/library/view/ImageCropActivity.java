@@ -50,7 +50,6 @@ public class ImageCropActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
 
     public static void startCrop(Activity activity, String path) {
-		FileUtils.setAppName(activity.getString(activity.getApplicationInfo().labelRes));
         Intent intent = new Intent(activity, ImageCropActivity.class);
         intent.putExtra(EXTRA_PATH, path);
 		intent.putExtra(CACHE_ONLY, true); //default this to truth
