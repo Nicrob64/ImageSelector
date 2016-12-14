@@ -222,7 +222,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             // on take photo success
             if (requestCode == REQUEST_CAMERA) {
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(cameraPath))));
+				sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(cameraPath)));
                 if (enableCrop) {
                     startCrop(cameraPath);
                 } else {
@@ -262,7 +262,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 				if (cameraIntent.resolveActivity(getPackageManager()) != null) {
 					File cameraFile = FileUtils.createMediaFile(this, true, ".jpg");
 					Uri photoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
-					cameraPath = cameraFile.getAbsolutePath();
+					cameraPath = photoUri.toString();
 					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 					startActivityForResult(cameraIntent, REQUEST_CAMERA);
 				}
@@ -272,7 +272,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 				if (videoIntent.resolveActivity(getPackageManager()) != null) {
 					File cameraFile = FileUtils.createMediaFile(this, false, ".mp4");
 					Uri videoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
-					cameraPath = cameraFile.getAbsolutePath();
+					cameraPath = videoUri.toString();
 					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
 					startActivityForResult(videoIntent, REQUEST_CAMERA);
 				}
