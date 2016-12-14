@@ -2,11 +2,14 @@ package com.yongchun.library.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
 
 import com.yongchun.library.model.LocalMedia;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,15 +35,45 @@ public class FileUtils {
 			env = Environment.DIRECTORY_MOVIES;
 		}
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
-		File album = new File(Environment.getExternalStoragePublicDirectory(env), getApplicationName(context));
-		File tmpFile = new File(album, timeStamp + postfix);
-		return tmpFile;
+		try {
+			File album = new File(Environment.getExternalStoragePublicDirectory(env), getApplicationName(context));
+			File image = File.createTempFile(
+				timeStamp,  /* prefix */
+				postfix,  /* suffix */
+				album      /* directory */
+			);
+		return image;
+		}catch (IOException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static String getApplicationName(Context context) {
 		ApplicationInfo applicationInfo = context.getApplicationInfo();
 		int stringId = applicationInfo.labelRes;
 		return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
+	}
+
+
+	public static String getRealPathFromUri(Context context, Uri contentUri) {
+
+		Cursor cursor = null;
+		String filePath = null;
+		if(contentUri == null){
+			return null;
+		}
+		if(contentUri.getScheme().equals("content")) {
+			String[] proj = {android.provider.MediaStore.Images.ImageColumns.DATA};
+			cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+			cursor.moveToFirst();
+			filePath = cursor.getString(0);
+			cursor.close();
+		}else{
+			filePath = contentUri.getPath();
+		}
+
+		return filePath;
 	}
 
 }
