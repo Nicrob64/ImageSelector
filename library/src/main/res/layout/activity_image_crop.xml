@@ -36,7 +36,7 @@
             android:id="@+id/cropImageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            custom:scv_crop_mode="circle"
+            custom:scv_crop_mode="circle_square"
             custom:scv_handle_size="10dp"
             custom:scv_touch_padding="15dp"/>
     </LinearLayout>
