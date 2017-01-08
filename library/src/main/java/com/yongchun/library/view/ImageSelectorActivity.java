@@ -227,7 +227,11 @@ public class ImageSelectorActivity extends AppCompatActivity {
                 if (enableCrop) {
                     startCrop(FileUtils.getRealPathFromUri(this, uri));
                 } else {
-                    onSelectDone(uri.toString());
+					if(uri != null) {
+						onSelectDone(uri.toString());
+					}else{
+						onSelectDone(new ArrayList<LocalMedia>());
+					}
                 }
             }
             //on preview select change
