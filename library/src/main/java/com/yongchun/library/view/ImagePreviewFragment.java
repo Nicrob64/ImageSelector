@@ -1,6 +1,7 @@
 package com.yongchun.library.view;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.yongchun.library.R;
 
 import java.io.File;
@@ -38,16 +38,23 @@ public class ImagePreviewFragment extends Fragment {
         View contentView = inflater.inflate(R.layout.fragment_image_preview, container, false);
         final ImageView imageView = (ImageView) contentView.findViewById(R.id.preview_image);
         final PhotoViewAttacher mAttacher = new PhotoViewAttacher(imageView);
-        Glide.with(container.getContext())
-                .load(new File(getArguments().getString(PATH)))
-                .asBitmap()
-                .into(new SimpleTarget<Bitmap>(480, 800) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        imageView.setImageBitmap(resource);
-                        mAttacher.update();
-                    }
-                });
+		Picasso.get().load(new File(getArguments().getString(PATH))).into(new Target() {
+			@Override
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+				imageView.setImageBitmap(bitmap);
+				mAttacher.update();
+			}
+
+			@Override
+			public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+			}
+
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+			}
+		});
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {

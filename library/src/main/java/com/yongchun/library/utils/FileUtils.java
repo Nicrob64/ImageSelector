@@ -36,7 +36,9 @@ public class FileUtils {
 		}
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
 		try {
-			File album = new File(Environment.getExternalStoragePublicDirectory(env), getApplicationName(context));
+			File externalDir = Environment.getExternalStoragePublicDirectory(env);
+			File album = new File(externalDir, getApplicationName(context));
+			album.mkdirs();
 			File image = File.createTempFile(
 				timeStamp,  /* prefix */
 				postfix,  /* suffix */

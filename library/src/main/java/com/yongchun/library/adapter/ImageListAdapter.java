@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.yongchun.library.R;
 import com.yongchun.library.model.LocalMedia;
 import com.yongchun.library.utils.LocalMediaLoader;
@@ -114,14 +114,11 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final ViewHolder contentHolder = (ViewHolder) holder;
             final LocalMedia image = images.get(showCamera ? position - 1 : position);
 
-            Glide.with(context)
-                    .load(new File(image.getPath()))
-                    .centerCrop()
-                    .thumbnail(0.5f)
-                    .placeholder(R.drawable.image_placeholder)
-                    .error(R.drawable.image_placeholder)
-                    .dontAnimate()
-                    .into(contentHolder.picture);
+			Picasso.get().load(new File(image.getPath()))
+					.placeholder(R.drawable.image_placeholder)
+					.error(R.drawable.image_placeholder)
+					.into(contentHolder.picture);
+
 
             if (selectMode == ImageSelectorActivity.MODE_SINGLE) {
                 contentHolder.check.setVisibility(View.GONE);

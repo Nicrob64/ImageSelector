@@ -1,5 +1,6 @@
 package com.yongchun.multiimageselector;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,8 +42,8 @@ public class SelectResultActivity extends AppCompatActivity {
 
         if (images.size() == 1) {
             resultRecyclerView.setVisibility(View.GONE);
-            Glide.with(SelectResultActivity.this)
-                    .load(new File(images.get(0)))
+			Picasso.get()
+                    .load(Uri.parse(images.get(0)))
                     .into(singleImageView);
         } else {
             singleImageView.setVisibility(View.GONE);
@@ -61,9 +62,8 @@ public class SelectResultActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(GridAdapter.ViewHolder holder, int position) {
-            Glide.with(SelectResultActivity.this)
-                    .load(new File(images.get(position)))
-                    .centerCrop()
+			Picasso.get()
+                    .load(Uri.parse(images.get(position)))
                     .into(holder.imageView);
         }
 

@@ -222,7 +222,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             // on take photo success
             if (requestCode == REQUEST_CAMERA) {
-				Uri uri = data.getData();
+				Uri uri = Uri.parse(cameraPath);
 				sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
                 if (enableCrop) {
                     startCrop(FileUtils.getRealPathFromUri(this, uri));
@@ -265,26 +265,24 @@ public class ImageSelectorActivity extends AppCompatActivity {
 			case LocalMediaLoader.TYPE_IMAGE:
 				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-					//File cameraFile = FileUtils.createMediaFile(this, true, ".jpg");
-					//Uri photoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
-					//cameraPath = photoUri.toString();
-					//cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+					File cameraFile = FileUtils.createMediaFile(this, true, ".jpg");
+					Uri photoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
+					cameraPath = photoUri.toString();
+					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 					startActivityForResult(cameraIntent, REQUEST_CAMERA);
 				}
 				break;
 			case LocalMediaLoader.TYPE_VIDEO:
 				Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 				if (videoIntent.resolveActivity(getPackageManager()) != null) {
-					//File cameraFile = FileUtils.createMediaFile(this, false, ".mp4");
-					//Uri videoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
-					//cameraPath = videoUri.toString();
-					//videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+					File cameraFile = FileUtils.createMediaFile(this, false, ".mp4");
+					Uri videoUri = FileProvider.getUriForFile(this, getPackageName()+".provider", cameraFile);
+					cameraPath = videoUri.toString();
+					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
 					startActivityForResult(videoIntent, REQUEST_CAMERA);
 				}
 				break;
 		}
-
-
 
     }
 

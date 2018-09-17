@@ -110,8 +110,8 @@ public class FolderWindow extends PopupWindow {
             method.setAccessible(true);
             method.invoke(popupWindow, touchModal);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
     }
     public class ItemDivider extends RecyclerView.ItemDecoration {
         private Drawable mDrawable;

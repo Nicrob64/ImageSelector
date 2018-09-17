@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.yongchun.library.R;
 import com.yongchun.library.model.LocalMedia;
 import com.yongchun.library.model.LocalMediaFolder;
@@ -44,11 +44,10 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final LocalMediaFolder folder = folders.get(position);
-        Glide.with(context)
+        Picasso.get()
                 .load(new File(folder.getFirstImagePath()))
                 .placeholder(R.mipmap.ic_placeholder)
                 .error(R.mipmap.ic_placeholder)
-                .centerCrop()
                 .into(holder.firstImage);
         holder.folderName.setText(folder.getName());
         holder.imageNum.setText(context.getString(R.string.num_postfix,folder.getImageNum()));
