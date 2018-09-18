@@ -64,6 +64,8 @@ public class SelectResultActivity extends AppCompatActivity {
         public void onBindViewHolder(GridAdapter.ViewHolder holder, int position) {
 			Picasso.get()
                     .load(Uri.parse(images.get(position)))
+					.resize(256, 256)
+					.centerCrop()
                     .into(holder.imageView);
         }
 

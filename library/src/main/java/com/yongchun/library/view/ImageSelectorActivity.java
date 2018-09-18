@@ -76,6 +76,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
 
     private String cameraPath;
 
+    private int thumnailSize = 256;
+
+
     public static void start(Activity activity, int maxSelectNum, int mode, boolean isShow, boolean enablePreview, boolean enableCrop) {
         Intent intent = new Intent(activity, ImageSelectorActivity.class);
         intent.putExtra(EXTRA_MAX_SELECT_NUM, maxSelectNum);
@@ -90,6 +93,8 @@ public class ImageSelectorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageselector);
+
+		thumnailSize = ScreenUtils.getScreenWidth(this)/spanCount;
 
         maxSelectNum = getIntent().getIntExtra(EXTRA_MAX_SELECT_NUM, 9);
         selectMode = getIntent().getIntExtra(EXTRA_SELECT_MODE, MODE_MULTIPLE);
@@ -141,7 +146,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, ScreenUtils.dip2px(this, 2), false));
         recyclerView.setLayoutManager(new GridLayoutManager(this, spanCount));
 
-        imageAdapter = new ImageListAdapter(this, maxSelectNum, selectMode, showCamera,enablePreview, mediaType);
+        imageAdapter = new ImageListAdapter(this, maxSelectNum, selectMode, showCamera,enablePreview, mediaType, thumnailSize);
         recyclerView.setAdapter(imageAdapter);
 
     }

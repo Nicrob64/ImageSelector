@@ -33,6 +33,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean enablePreview = true;
     private int maxSelectNum;
     private int selectMode = ImageSelectorActivity.MODE_MULTIPLE;
+    private int thumnailSize = 256;
 
 	private int mediaType = LocalMediaLoader.TYPE_IMAGE;
 
@@ -41,13 +42,16 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private OnImageSelectChangedListener imageSelectChangedListener;
 
-    public ImageListAdapter(Context context, int maxSelectNum, int mode, boolean showCamera, boolean enablePreview, int mediaType) {
+    public ImageListAdapter(Context context, int maxSelectNum, int mode, boolean showCamera, boolean enablePreview, int mediaType, int thumnailSize) {
         this.context = context;
         this.selectMode = mode;
         this.maxSelectNum = maxSelectNum;
         this.showCamera = showCamera;
         this.enablePreview = enablePreview;
 		this.mediaType = mediaType;
+		if(thumnailSize > 0){
+			this.thumnailSize = thumnailSize;
+		}
     }
 
     public void bindImages(List<LocalMedia> images) {
@@ -115,6 +119,8 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final LocalMedia image = images.get(showCamera ? position - 1 : position);
 
 			Picasso.get().load(new File(image.getPath()))
+					.resize(thumnailSize, thumnailSize)
+					.centerCrop()
 					.placeholder(R.drawable.image_placeholder)
 					.error(R.drawable.image_placeholder)
 					.into(contentHolder.picture);

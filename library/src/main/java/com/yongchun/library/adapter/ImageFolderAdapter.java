@@ -24,6 +24,7 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
     private Context context;
     private List<LocalMediaFolder> folders = new ArrayList<>();
     private int checkedIndex = 0;
+    private int thumnailSize = 256;
 
     private OnItemClickListener onItemClickListener;
     public ImageFolderAdapter(Context context) {
@@ -46,6 +47,8 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
         final LocalMediaFolder folder = folders.get(position);
         Picasso.get()
                 .load(new File(folder.getFirstImagePath()))
+				.resize(thumnailSize, thumnailSize)
+				.centerCrop()
                 .placeholder(R.mipmap.ic_placeholder)
                 .error(R.mipmap.ic_placeholder)
                 .into(holder.firstImage);

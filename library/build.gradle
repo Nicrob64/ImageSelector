@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.nicrob64'
+
 
 android {
     compileSdkVersion 22
@@ -11,7 +11,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.1"
     }
     buildTypes {
         release {
@@ -35,3 +35,5 @@ dependencies {
     compile 'com.commit451:PhotoView:1.2.4'
     compile 'com.isseiaoki:simplecropview:1.1.4'
 }
+
+apply from: 'publish.gradle'
