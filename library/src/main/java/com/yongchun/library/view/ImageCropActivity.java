@@ -49,9 +49,9 @@ public class ImageCropActivity extends AppCompatActivity {
 
     private final Handler handler = new Handler();
 
-    public static void startCrop(Activity activity, String path) {
+    public static void startCrop(Activity activity, Uri uri) {
         Intent intent = new Intent(activity, ImageCropActivity.class);
-        intent.putExtra(EXTRA_PATH, path);
+        intent.putExtra(EXTRA_PATH, uri);
 		intent.putExtra(CACHE_ONLY, true); //default this to truth
         activity.startActivityForResult(intent, REQUEST_CROP);
     }
@@ -60,8 +60,9 @@ public class ImageCropActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_crop);
-        String path = getIntent().getStringExtra(EXTRA_PATH);
-        sourceUri = Uri.fromFile(new File(path));
+        //String path = getIntent().getStringExtra(EXTRA_PATH);
+        //sourceUri = Uri.fromFile(new File(path));
+		sourceUri = getIntent().getParcelableExtra(EXTRA_PATH);
 
         initView();
         registerListener();
@@ -193,7 +194,7 @@ public class ImageCropActivity extends AppCompatActivity {
             } finally {
                 CropUtil.closeSilently(outputStream);
             }
-            setResult(RESULT_OK, new Intent().putExtra(OUTPUT_PATH, saveUri.getPath()));
+            setResult(RESULT_OK, new Intent().putExtra(OUTPUT_PATH, saveUri.toString()));
         }
         final Bitmap b = croppedImage;
         handler.post(new Runnable() {

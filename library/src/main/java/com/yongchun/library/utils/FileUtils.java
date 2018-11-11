@@ -19,7 +19,7 @@ import java.util.UUID;
  * Created by dee on 15/11/20.
  */
 public class FileUtils {
-    public static String POSTFIX = ".JPEG";
+    public static String POSTFIX = ".jpg";
 
 
 	public static File createTempCropFile(Context context){

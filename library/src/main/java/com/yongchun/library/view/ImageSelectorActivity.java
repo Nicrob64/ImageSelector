@@ -193,7 +193,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
                 if (enablePreview) {
                     startPreview(imageAdapter.getImages(), position);
                 } else if (enableCrop) {
-                    startCrop(media.getPath());
+                    startCrop(Uri.fromFile(new File(media.getPath())));
                 } else {
                     onSelectDone(media.getPath());
                 }
@@ -230,7 +230,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 				Uri uri = Uri.parse(cameraPath);
 				sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
                 if (enableCrop) {
-                    startCrop(FileUtils.getRealPathFromUri(this, uri));
+                    startCrop(uri);
                 } else {
 					if(uri != null) {
 						onSelectDone(uri.toString());
@@ -295,7 +295,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         ImagePreviewActivity.startPreview(this, previewImages, imageAdapter.getSelectedImages(), maxSelectNum, position);
     }
 
-    public void startCrop(String path) {
+    public void startCrop(Uri path) {
         ImageCropActivity.startCrop(this, path);
     }
 
