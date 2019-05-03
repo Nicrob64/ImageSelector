@@ -1,7 +1,10 @@
 package com.yongchun.library.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,13 +121,18 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final ViewHolder contentHolder = (ViewHolder) holder;
             final LocalMedia image = images.get(showCamera ? position - 1 : position);
 
-			Picasso.get().load(new File(image.getPath()))
-					.resize(thumnailSize, thumnailSize)
-					.centerCrop()
-					.placeholder(R.drawable.image_placeholder)
-					.error(R.drawable.image_placeholder)
-					.into(contentHolder.picture);
-
+            if(mediaType == LocalMediaLoader.TYPE_VIDEO) {
+                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(image.getPath(),
+                        MediaStore.Images.Thumbnails.MINI_KIND);
+                contentHolder.picture.setImageBitmap(thumb);
+            }else{
+                Picasso.get().load(image.getPath())
+                        .resize(thumnailSize, thumnailSize)
+                        .centerCrop()
+                        .placeholder(R.drawable.image_placeholder)
+                        .error(R.drawable.image_placeholder)
+                        .into(contentHolder.picture);
+            }
 
             if (selectMode == ImageSelectorActivity.MODE_SINGLE) {
                 contentHolder.check.setVisibility(View.GONE);
