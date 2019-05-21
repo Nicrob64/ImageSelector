@@ -126,7 +126,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         MediaStore.Images.Thumbnails.MINI_KIND);
                 contentHolder.picture.setImageBitmap(thumb);
             }else{
-                Picasso.get().load(image.getPath())
+                Picasso.get().load(new File(image.getPath()))
                         .resize(thumnailSize, thumnailSize)
                         .centerCrop()
                         .placeholder(R.drawable.image_placeholder)
